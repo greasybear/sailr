@@ -1,0 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Tercio {
+    public class CannonScript : SmartObject
+    {
+        public Transform ShotSpot;
+        public bool loaded = false;
+        public float shotSpeed;
+        AudioSource cannonShot;
+        public GameObject cannonBall;
+        public bool testBool;
+        public GameObject smoke;
+
+        public override void Use()
+        {
+            //cannonShot.Play();
+            if (loaded)
+            {
+                base.Use();
+                GameObject cannonBallShot = Instantiate(cannonBall, ShotSpot.position, transform.rotation) as GameObject;
+                cannonBallShot.GetComponent<Rigidbody>().velocity = transform.forward * shotSpeed;  //  AddForce((transform.forward) * shotSpeed);
+                GameObject cannonSmoke = Instantiate(smoke, ShotSpot.position, transform.rotation) as GameObject;
+                loaded = false;
+                GetComponentInChildren<CannonMuzzle>().Fire();
+            }
+        }
+
+    }
+}
